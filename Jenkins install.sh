@@ -21,9 +21,8 @@ echo "[INFO] Installing dependencies..." | tee -a $LOG_FILE
 yum install -y fontconfig java-17-openjdk java-17-openjdk-devel wget &>$LOG_FILE
 Stat $?
 
-# Step 2: Add Jenkins repo
-echo "[INFO] Adding Jenkins repo..." | tee -a $LOG_FILE
-wget --no-check-certificate -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo &>>$LOG_FILE
+# Step 2: Add Jenkins repo (using curl to avoid TLS issue)
+curl -k -L https://pkg.jenkins.io/redhat-stable/jenkins.repo -o /etc/yum.repos.d/jenkins.repo &>>$LOG_FILE
 Stat $?
 
 rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key &>>$LOG_FILE
